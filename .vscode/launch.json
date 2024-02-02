@@ -8,15 +8,17 @@
             "name": "play1",
             "type": "debugpy",
             "request": "launch",
-            "program": "./src/play1.py",
-            "console": "integratedTerminal"
+            "program": "play1.py",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}"
         },
         {
             "name": "play2",
             "type": "debugpy",
             "request": "launch",
-            "program": "./src/play2.py",
-            "console": "integratedTerminal"
+            "program": "play2.py",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}"
         }
     ]
 }
