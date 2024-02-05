@@ -1,6 +1,8 @@
 # Playground for [Ollama](https://ollama.ai/blog/python-javascript-libraries) and Python
 
-Notes on an initial play with Ollama. 
+Notes on an initial play with Ollama.
+
+## Setting up the engine
 
 The engine can be [installed](https://ollama.ai/download/linux) on the host.
 
@@ -12,9 +14,23 @@ Alternatively it can be spun up in a docker container using the following comman
 
 `docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama ollama/ollama`
 
+To pull down a model in a container:
+
+`docker exec -it ollama ollama pull mistral`
+
 On a container rup-up the model in the container:
 
 `docker exec -it ollama ollama run llama2`
+
+And to start the container (if required after restart):
+
+`docker start ollama`
+
+To view the logs in the container:
+
+`docker logs -f ollama`
+
+## Application Development
 
 Prerequisites were to create a environment using [Anaconda](https://www.anaconda.com/):
 

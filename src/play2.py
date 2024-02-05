@@ -1,38 +1,22 @@
 import json
 import os
 import ollama
+import time
 
 
-def query_ollama(prompt, model='llama2', context=''):
+def query_ollama(prompt, model='mistral', context=''):
+    context_prompt = context + prompt
     response = ollama.generate(
         model=model,
-        prompt=context + prompt)
+        prompt=context_prompt)
     return response['response'].strip()
 
 
-def create_valid_file():
-    if not os.path.exists('train.jsonl'):
-        die('No train.jsonl file found!')
-
-    with open('train.jsonl', 'r') as file:
-        train_lines = file.read().splitlines()
-
-    total_lines = len(train_lines)
-    twenty_percent = round(total_lines * 0.2)
-
-    val_lines = train_lines[:twenty_percent]
-    train_lines = train_lines[twenty_percent:]
-
-    with open('train.jsonl', 'w') as file:
-        file.write('\n'.join(train_lines))
-
-    with open('valid.jsonl', 'w') as file:
-        file.write('\n'.join(val_lines))
-
-def die(message):
-    raise Exception(message)
-
 def main():
+    if os.path.exists('instructions.json'):
+        print("Instructions found - deleting...\n")
+        os.remove('instructions.json')
+
     if not os.path.exists('instructions.json'):
         topic = input("What is the topic of this training dataset? ")
         prompt = f"""Please list in JSON format 10 frequently asked questions about {topic} from all levels of users  
@@ -42,35 +26,17 @@ def main():
         f"'How to', 'What is the difference', 'Can users', 'Can I', 'What is' 
         f"You do not need to provide an answer, or category to each question. The list should be 
         f"a single dimension array of only questions."""
+        tic = time.perf_counter()
         instructions = query_ollama(prompt)
+        toc = time.perf_counter()
         with open('instructions.json', 'w') as file:
             file.write(instructions)
 
     with open('instructions.json', 'r') as file:
         instructions = json.load(file)
 
-    total = len(instructions)
+    print(f"Done! Instructions file generated in {toc - tic:0.4f} seconds.")
 
-    print("------------------------------")
-    for i, instruction in enumerate(instructions):
-        print(f"({i + 1}/{total}) {instruction}")
-        print("------------------------------")
-
-        answer = query_ollama(instruction)
-        print(answer)  # for terminal output
-
-        result = {'text': f'<s>[INST] {instruction}[/INST] {answer}</s>'}
-        output = json.dumps(result) + "\n"
-        output = output.replace('[\/INST]', "[/INST]").replace('<\/s>', "</s>")
-
-        print("\n\n------------------------------\n")
-
-        with open('train.jsonl', 'a') as file:
-            file.write(output)
-
-    create_valid_file()
-
-    print("Done! Training and validation JSONL files created.")
 
 if __name__ == "__main__":
     main()

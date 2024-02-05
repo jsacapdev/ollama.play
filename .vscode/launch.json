@@ -19,6 +19,14 @@
             "program": "play2.py",
             "console": "integratedTerminal",
             "cwd": "${fileDirname}"
+        },
+        {
+            "name": "play3",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "play3.py",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}"
         }
     ]
 }
