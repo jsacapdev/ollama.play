@@ -50,6 +50,14 @@ pip-compile ./requirements.in
 pip install -r ./requirements.txt
 ```
 
+## Files
+
+|File|Description|
+|-|-|
+|play1.py|Does not do anything. Just scratch space from the `ollama` python examples.|
+|play2.py|Generates an instructions file with a list of questions about a specific topic. The instructions file can be used to generate tracing and validation json|
+|play3.py|Takes an instructions file as an input and generates a tracing and validation json that can be used to fine tune a model?|
+
 ## Benchmarks
 
 Snapshot of times taken by various models (in seconds).
