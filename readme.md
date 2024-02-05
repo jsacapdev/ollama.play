@@ -49,3 +49,12 @@ pip-compile ./requirements.in
 
 pip install -r ./requirements.txt
 ```
+
+## Benchmarks
+
+Snapshot of times taken by various models (in seconds).
+
+|Model|Instruction|Training and Validation|
+|-|-|-|
+|llama2|87.8539|1161.0374|
+|mistral|54.3922|1172.8433|

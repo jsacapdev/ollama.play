@@ -40,10 +40,6 @@ def main():
     if not os.path.exists('instructions.json'):
         die('No instructions file found!')
 
-    if os.path.exists('train.jsonl'):
-        print("Training file found - deleting...\n")
-        os.remove('train.jsonl')
-
     with open('instructions.json', 'r') as file:
         instructions = json.load(file)
 
